@@ -1,61 +1,45 @@
-
-import './App.css'
-import SearchBar from './component/SearchBar'
-import Main from   './component/Main'
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import { useEffect, useState } from 'react';
+import "./App.css";
+import SearchBar from "./component/SearchBar";
+import Home from "./component/Home";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import { useSearch } from "./context/SearchContext";
+import { ThemeContext } from "./context/ThemeContext";
+import { useContext } from "react";
+import YoutubeComp from "./component/YoutubeComp";
 
 function App() {
-  
-  const [theme, setTheme] = useState('light')
-  // if local storage is empty save theme as light
-  useEffect(() => {
-    if (localStorage.getItem('theme') === null) {
-      localStorage.setItem('theme', 'light');
-    }
-  }, []);
+  const {api ,setApi } = useSearch()
+  const {toggleMode} =  useContext(ThemeContext)
 
-  useEffect(() => {
-    // select html elem
-    const html = document.querySelector('html');
-    if (localStorage.getItem('theme') === 'dark') {
-      html.classList.add('dark');
-      setTheme('dark');
-    } else {
-      html.classList.remove('dark');
-      setTheme('light');
-    }
-  }, [theme]);
-
-  // handle switch theme
-  const toggleMode = () => {
-    if (localStorage.getItem('theme') === 'light') {
-      setTheme('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      setTheme('light');
-      localStorage.setItem('theme', 'light');
-    }
+  const handleSelect = (e) => {
+   setApi(e.target.value)
+   
   };
   return (
-    <>
-   <div className = "mx-auto  mt-8 w-[50rem] md:w-auto py-8 dark:bg-light">
+    <div className=" App min-w-7xl bg-primary dark:bg-light py-8 md:py-28 relative">
+      <h2 className="text-white dark:text-dark uppercase mt-10">Devfinder</h2>
+      <div className="w-auto md:mx-40 flex flex-col justify-between item-center p-2">
+        <select
+          name=""
+          id=""
+          className="mb-2 py-1 rounded w-60 absolute left-6 top-10"
+          onChange={handleSelect}
+        >
+          <option value="">Select API</option>
+          <option value="Youtube" >Youtube</option>
+          <option value="github" >Github</option>
+          <option value="google">Google</option>
+        </select>
+        <div className="flex justify-between text-white dark:text-dark absolute right-6 top-10">
+          <WbSunnyIcon onClick={toggleMode} />
+        </div>
 
-    <div className="flex justify-between p-3 mx-auto  ">
-      <h2 className ="text-white dark:text-dark">Devfinder</h2>
-      <div className="flex justify-between text-white dark:text-dark">
-      <p className='px-2'>LIGHT</p>
-      <WbSunnyIcon onClick ={toggleMode} />
+        <SearchBar className="dark:text-dark" />
+
+        {api == 'Youtube'? <YoutubeComp /> : <Home className="dark:text-dark" />}
       </div>
     </div>
-   
-    <SearchBar  className ='dark:text-dark' />
-
-    <Main  className ='dark:text-dark' />
-   
-</div>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

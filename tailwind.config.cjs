@@ -9,6 +9,7 @@ module.exports = {
     colors: {
       'primary':'#141C2F',
       'secondary':'#1F2A48',
+      'slate' :'#f1f5f9',
       'blue': '#0079FE',
       'pink': '#ff49db',
       'orange': '#ff7849',
@@ -22,26 +23,26 @@ module.exports = {
     },
    
     screens: {
-      '2xl': {'max': '1535px'},
-      // => @media (max-width: 1535px) { ... }
+      'sm': '640px',
+      // => @media (min-width: 640px) { ... }
 
-      'xl': {'max': '1279px'},
-      // => @media (max-width: 1279px) { ... }
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
 
-      'lg': {'max': '1023px'},
-      // => @media (max-width: 1023px) { ... }
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
 
-      'md': {'max': '800px'},
-      // => @media (max-width: 767px) { ... }
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
 
-      'sm': {'max': '500px'},
-      // => @media (max-width: 639px) { ... }
-    },
-    height: {
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    }
+   /*  height: {
       '128': '1rem',
       '500':'2rem',
       '1000':"5rem",
-    }
+    } */
   },
   plugins: [],
 }
