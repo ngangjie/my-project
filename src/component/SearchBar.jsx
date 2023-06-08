@@ -7,28 +7,44 @@ import { searchGithub, searchYoutube } from "../service";
 const SearchBar = () => {
   const [text, settext] = useState("");
   const { api, setPost, setIsLoading, isLoading } = useSearch();
-
-  React.useEffect(() => {}, []);
+  const [loader, setLoader] = useState(false)
+  const [Error, setError] = useState('')
+  React.useEffect(() => { }, []);
 
   const handleSearch = async (e) => {
+
     e.preventDefault();
-    setIsLoading(true);
+    setLoader(true);
     if (api === "Youtube") {
-      await searchYoutube()
+      await searchYoutube(text)
         .then((response) => {
           setPost(response.data);
-          setIsLoading(false);
-          
+          setLoader(false);
+          setError("");
+
+
         })
-        .catch((error) => console.log(error));
-        
+        .catch((error) => {
+          setLoader(false);
+          console.log(error)
+          setError(error.message);
+        });
+
+
     } else {
-      await searchGithub()
+      await searchGithub(text)
         .then((response) => {
           setPost(response.data);
-          setIsLoading(false);
+          setLoader(false);
+          setError("");
+
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          setLoader(false);
+          console.log(error)
+          setError(error.message);
+        });
+
     }
   };
   return (
@@ -41,7 +57,8 @@ const SearchBar = () => {
           />
           <input
             type="search"
-            placeholder={api=='Youtube'?"Search Videos..." : "Search Github username..."}
+            required
+            placeholder={api == 'Youtube' ? "Search Videos..." : "Search Github username..."}
             className="form-input p-4 bg-secondary rounded-xl shadow-md w-full  text-center text-white dark:bg-white dark:text-primary text-sm"
             onChange={(e) => {
               settext(e.target.value);
@@ -52,10 +69,11 @@ const SearchBar = () => {
             type="submit"
             className="px-3 py-2 rounded-xl bg-blue text-white absolute right-2 top-1"
           >
-            {isLoading == true ? "loading..." : "Search"}
+            {loader == true ? "loading..." : "Search"}
           </button>
         </div>
       </form>
+      {Error ? <span className="text-base text-orange p-2 mb-2">{Error}</span> : ""}
     </div>
   );
 };

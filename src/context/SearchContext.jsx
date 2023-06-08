@@ -4,7 +4,7 @@ import { useState } from "react";
 export const SearchAPI = createContext();
 
 export const SearchProvider = ({ children }) => {
-  const [api, setApi] = useState("");
+  const [api, setApi] = useState("Youtube");
   const [post, setPost] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   const values = { api, setApi, post, setPost, isloading, setIsLoading };
@@ -12,5 +12,5 @@ export const SearchProvider = ({ children }) => {
 };
 
 export const useSearch = () => {
- return useContext(SearchAPI);
+  return useContext(SearchAPI);
 };
