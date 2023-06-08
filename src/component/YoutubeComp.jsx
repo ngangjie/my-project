@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSearch } from "../context/SearchContext";
+import ReactPlayer from "react-player";
 
 const YoutubeComp = () => {
-  const { api, post, isLoading, setIsLoading } = useSearch()
-  const {items} = post;
+  const { api,  Data} = useSearch()
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const {items} = Data;
+
+  const playVideo = (x) => {
+    setIsVideoPlaying(true)
+    const videoId = x;
+    // Ajoutez ici la logique pour lire la vidéo, par exemple, en utilisant une bibliothèque de lecteur vidéo comme react-player
+  };
+
 
   return (
     <div className="w-full">
@@ -11,25 +20,34 @@ const YoutubeComp = () => {
         <img src="src/assets/youtube.jpg" alt="" />
         <h1 className="uppercase text-slate text-lg mx-2 dark:text-primary">Youtube</h1>
       </div>
-      <h3 className="text-slate text-base dark:text-primary p-3">Search Result</h3>
-      <div className="text-slate grid md:grid-cols-2 gap-4 dark:text-primary">
-       {items?.map((data) =>{  
-        return (<div key ={data.id}>
-          <img src="src/assets/youtube.jpg" alt="" />
-          <h3>{data.snippet.title}</h3>
-        </div>)})}
-        <div>
-          <img src="src/assets/youtube.jpg" alt="" />
-          <h3>Forbiden Kingdom</h3>
-        </div>
-        <div>
-          <img src="src/assets/youtube.jpg" alt="" />
-          <h3>The Acidental King</h3>
-        </div>
-        <div>
-          <img src="src/assets/youtube.jpg" alt="" />
-          <h3>React Complete Tutorial</h3>
-        </div>
+     { Data?.items? (<h3 className="text-slate text-base dark:text-primary p-3">Happy Viewing!!</h3>): (<h3 className="text-slate text-base dark:text-primary p-3">No Result Available!</h3>) }
+      <div className="text-slate grid grid-rows-1 md:grid-cols-2 lg:grid-cols-3 gap-4 dark:text-primary">
+      {Data?.items?.map((video) => (
+            
+            <div key={video.id} className="video-item bg-white rounded-lg shadow-md p-4">
+
+              <ReactPlayer
+                url={`https://www.youtube.com/watch?v=${video.id.videoId}`}
+                controls
+                width="100%"
+                height="auto"
+              />
+            
+              <div className="video-info mt-4">
+                <h2 className="title text-primary text-lg font-bold">{video.snippet.title}</h2>
+                
+                <p className="published-at mt-2 text-gray text-sm"><span className="font-bold text-gray">Published At</span>{" "}
+                { new Date(video.snippet.publishedAt).toLocaleString("en-US", {
+                weekday: "short",
+                day: "numeric",
+                year: "numeric",
+              })
+            }
+                </p>
+               
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );
