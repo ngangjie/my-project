@@ -1,24 +1,27 @@
 import React from "react";
 import "../App.css";
+import { useSearch } from "../context/SearchContext";
 
 const Profile = () => {
+  const { api, post, isLoading, setIsLoading } = useSearch()
+  const {public_repos, followers, following, bio} = post
   return (
     <div className=" w-full ">
       <p className="text-white text-center pb-6 dark:text-primary">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere odit sit, maiores cumque eum molestiae mollitia iusto, sunt nam animi expedita! Ipsa sit nemo tempore nostrum aliquam possimus fugit repellendus.
+       {bio == null? 'No bio': bio}
       </p>
       <div className="text-white  p-6 text-sm md:text-base bg-primary rounded-xl shadow-md flex  justify-around w-auto gap-2 dark:bg-slate ">
         <div className="repos dark:text-primary">
           <h3>Repos</h3>
-          <p>8</p>
+          <p>{public_repos}</p>
         </div>
         <div className="followers dark:text-primary">
           <h3>Followers</h3>
-          <span>3938</span>
+          <span>{followers}</span>
         </div>
         <div className="following dark:text-primary">
           <h3>Following</h3>
-          <span>9</span>
+          <span>{following}</span>
         </div>
       </div>
     </div>

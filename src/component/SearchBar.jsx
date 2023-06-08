@@ -14,7 +14,7 @@ const SearchBar = () => {
     e.preventDefault();
     setIsLoading(true);
     if (api === "Youtube") {
-      await searchYoutube()
+      await searchYoutube(text)
         .then((response) => {
           setPost(response.data);
           setIsLoading(false);
@@ -23,7 +23,7 @@ const SearchBar = () => {
         .catch((error) => console.log(error));
         
     } else {
-      await searchGithub()
+      await searchGithub(text)
         .then((response) => {
           setPost(response.data);
           setIsLoading(false);
